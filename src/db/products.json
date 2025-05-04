@@ -1,0 +1,12 @@
+[
+    {
+      "id": 1,
+      "title": "Peluche",
+      "description": "Peluche de perrito",
+      "price": 100,
+      "status": true,
+      "stock": 10,
+      "category": "Juguete"
+    }
+  ]
+  
