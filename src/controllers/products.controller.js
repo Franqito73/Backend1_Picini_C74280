@@ -1,19 +1,17 @@
-const ProductManager = require('../managers/ProductManager');
-
+const ProductService = require('../services/productService');
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await ProductManager.getAllProducts();
+    const products = await ProductService.getAllProducts();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los productos' });
   }
 };
 
-
 const getProductById = async (req, res) => {
   try {
-    const product = await ProductManager.getProductById(parseInt(req.params.id));
+    const product = await ProductService.getProductById(parseInt(req.params.id));
     if (product) {
       res.status(200).json(product);
     } else {
@@ -24,20 +22,21 @@ const getProductById = async (req, res) => {
   }
 };
 
-
 const createProduct = async (req, res) => {
   try {
-    const newProduct = await ProductManager.addProduct(req.body);
+    const newProduct = await ProductService.createProduct(req.body);
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el producto' });
   }
 };
 
-
 const updateProduct = async (req, res) => {
   try {
-    const updatedProduct = await ProductManager.updateProduct(parseInt(req.params.id), req.body);
+    const updatedProduct = await ProductService.updateProduct(
+      parseInt(req.params.id),
+      req.body
+    );
     if (updatedProduct) {
       res.status(200).json(updatedProduct);
     } else {
@@ -48,10 +47,9 @@ const updateProduct = async (req, res) => {
   }
 };
 
-
 const deleteProduct = async (req, res) => {
   try {
-    const result = await ProductManager.deleteProduct(parseInt(req.params.id));
+    const result = await ProductService.deleteProduct(parseInt(req.params.id));
     if (result) {
       res.status(200).json({ message: 'Producto eliminado' });
     } else {
