@@ -9,7 +9,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
 app.get('/', (req, res) => {
-  res.send('¡El server funcionda!');
+  res.send('¡El server funciona!');
 });
 
 module.exports = app;

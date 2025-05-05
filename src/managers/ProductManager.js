@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const productsFilePath = path.join(__dirname, '../db/products.json');
+const productsFilePath = './db/products.json';
 
 class ProductManager {
   
@@ -13,7 +13,6 @@ class ProductManager {
       throw new Error('Error al leer los productos');
     }
   }
-
 
   static async getProductById(id) {
     try {
@@ -37,7 +36,6 @@ class ProductManager {
     }
   }
 
-
   static async updateProduct(id, updatedProduct) {
     try {
       const products = await this.getAllProducts();
@@ -54,7 +52,6 @@ class ProductManager {
     }
   }
 
- 
   static async deleteProduct(id) {
     try {
       const products = await this.getAllProducts();
