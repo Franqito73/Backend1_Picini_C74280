@@ -4,9 +4,17 @@
       "title": "Peluche",
       "description": "Peluche de perrito",
       "price": 100,
-      "status": true,
       "stock": 10,
-      "category": "Juguete"
+      "category": "Juguetes"
+    },
+
+    {
+      "id": 2,
+      "title": "Velador",
+      "description": "Velador de lava",
+      "price": 200,
+      "stock": 15,
+      "category": "Bazar"
     }
   ]
   
