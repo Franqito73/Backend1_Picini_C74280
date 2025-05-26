@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { saveToFile } = require('../utils/fsUtils');
 
-const cartsFilePath = './db/carts.json';
+const cartsFilePath = path.join(__dirname, '../db/carts.json');
 
 class CartManager {
   

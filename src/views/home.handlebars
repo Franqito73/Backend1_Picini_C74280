@@ -1,7 +1,26 @@
-<h1>Lista de Productos</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Productos</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Productos Disponibles</h1>
+  </header>
 
-<ul>
-  {{#each products}}
-    <li><strong>{{this.title}}</strong> - ${{this.price}}</li>
-  {{/each}}
-</ul>
+  <div class="container">
+    {{#each products}}
+      <div class="card">
+        <img src="{{this.thumbnail}}" alt="Imagen del producto">
+        <div class="card-body">
+          <h2 class="card-title">{{this.title}}</h2>
+          <p class="card-text">{{this.description}}</p>
+          <p class="price">${{this.price}}</p>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</body>
+</html>
