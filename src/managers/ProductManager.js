@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { saveToFile } = require('../utils/fsUtils');
 
 const productsFilePath = './db/products.json';
 
@@ -29,7 +30,7 @@ class ProductManager {
       const newProduct = { id: this.generateId(products), ...product };
       products.push(newProduct);
 
-      await fs.promises.writeFile(productsFilePath, JSON.stringify(products, null, 2));
+      await saveToFile(productsFilePath, products);
       return newProduct;
     } catch (error) {
       throw new Error('Error al agregar el producto');
@@ -42,7 +43,7 @@ class ProductManager {
       const index = products.findIndex(product => product.id === id);
       if (index !== -1) {
         products[index] = { ...products[index], ...updatedProduct };
-        await fs.promises.writeFile(productsFilePath, JSON.stringify(products, null, 2));
+        await saveToFile(productsFilePath, products);
         return products[index];
       } else {
         return null; 
@@ -57,7 +58,7 @@ class ProductManager {
       const products = await this.getAllProducts();
       const updatedProducts = products.filter(product => product.id !== id);
       if (updatedProducts.length !== products.length) {
-        await fs.promises.writeFile(productsFilePath, JSON.stringify(updatedProducts, null, 2));
+        await saveToFile(productsFilePath, products);
         return true;
       }
       return false;

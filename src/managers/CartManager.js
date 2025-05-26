@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { saveToFile } = require('../utils/fsUtils');
 
 const cartsFilePath = './db/carts.json';
 
@@ -10,7 +11,7 @@ class CartManager {
       const carts = await this.getAllCarts();
       const newCart = { id: this.generateId(carts), products: [] };
       carts.push(newCart);
-      await fs.promises.writeFile(cartsFilePath, JSON.stringify(carts, null, 2));
+      await saveToFile(cartsFilePath, carts);
       return newCart;
     } catch (error) {
       throw new Error('Error al crear el carrito');
@@ -51,7 +52,7 @@ class CartManager {
         cart.products.push({ id: pid, quantity });
       }
 
-      await fs.promises.writeFile(cartsFilePath, JSON.stringify(carts, null, 2));
+      await saveToFile(cartsFilePath, carts);
       return cart;
     } catch (error) {
       throw new Error('Error al agregar el producto al carrito');
