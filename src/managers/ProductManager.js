@@ -1,15 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const { saveToFile } = require('../utils/fsUtils');
-
-const productsFilePath = path.join(__dirname, '../db/products.json');
+const Product = require('../models/Product');
 
 class ProductManager {
-
+  
   static async getAllProducts() {
     try {
-      const data = await fs.promises.readFile(productsFilePath, 'utf-8');
-      return JSON.parse(data);
+      return await Product.find({});
     } catch (error) {
       throw new Error('Error al leer los productos');
     }
@@ -17,21 +12,17 @@ class ProductManager {
 
   static async getProductById(id) {
     try {
-      const products = await this.getAllProducts();
-      return products.find(product => product.id === id);
+      return await Product.findById(id);
     } catch (error) {
       throw new Error('Error al obtener el producto');
     }
   }
 
-  static async addProduct(product) {
+  static async addProduct(productData) {
     try {
-      const products = await this.getAllProducts();
-      const newProduct = { id: this.generateId(products), ...product };
-      products.push(newProduct);
-
-      await saveToFile(productsFilePath, products);
-      return newProduct;
+      const product = new Product(productData);
+      await product.save();
+      return product;
     } catch (error) {
       throw new Error('Error al agregar el producto');
     }
@@ -39,16 +30,8 @@ class ProductManager {
 
   static async updateProduct(id, updatedProduct) {
     try {
-      const products = await this.getAllProducts();
-      const index = products.findIndex(product => product.id === id);
-
-      if (index !== -1) {
-        products[index] = { ...products[index], ...updatedProduct };
-        await saveToFile(productsFilePath, products);
-        return products[index];
-      } else {
-        return null;
-      }
+      const product = await Product.findByIdAndUpdate(id, updatedProduct, { new: true });
+      return product; // null si no existe
     } catch (error) {
       throw new Error('Error al actualizar el producto');
     }
@@ -56,23 +39,11 @@ class ProductManager {
 
   static async deleteProduct(id) {
     try {
-      const products = await this.getAllProducts();
-      const filteredProducts = products.filter(product => product.id !== id);
-
-      if (filteredProducts.length !== products.length) {
-        await saveToFile(productsFilePath, filteredProducts);
-        return true;
-      }
-
-      return false;
+      const result = await Product.findByIdAndDelete(id);
+      return result !== null; // true si se eliminó, false si no existe
     } catch (error) {
       throw new Error('Error al eliminar el producto');
     }
-  }
-
-  static generateId(products) {
-    const maxId = products.reduce((max, product) => Math.max(max, product.id), 0);
-    return maxId + 1;
   }
 }
 

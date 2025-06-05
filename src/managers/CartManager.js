@@ -1,68 +1,52 @@
-const fs = require('fs');
-const path = require('path');
-const { saveToFile } = require('../utils/fsUtils');
-
-const cartsFilePath = path.join(__dirname, '../db/carts.json');
+const Cart = require('../models/Cart');
 
 class CartManager {
-  
+
   static async createCart() {
     try {
-      const carts = await this.getAllCarts();
-      const newCart = { id: this.generateId(carts), products: [] };
-      carts.push(newCart);
-      await saveToFile(cartsFilePath, carts);
+      const newCart = new Cart({ products: [] });
+      await newCart.save();
       return newCart;
     } catch (error) {
       throw new Error('Error al crear el carrito');
     }
   }
 
-  
   static async getAllCarts() {
     try {
-      const data = await fs.promises.readFile(cartsFilePath, 'utf-8');
-      return JSON.parse(data);
+      return await Cart.find({}).populate('products.product');
     } catch (error) {
       throw new Error('Error al leer los carritos');
     }
   }
 
-  
   static async getCart(id) {
     try {
-      const carts = await this.getAllCarts();
-      return carts.find(cart => cart.id === id);
+      return await Cart.findById(id).populate('products.product');
     } catch (error) {
       throw new Error('Error al obtener el carrito');
     }
   }
 
-  
   static async addProductToCart(cid, pid, quantity) {
     try {
-      const carts = await this.getAllCarts();
-      const cart = carts.find(cart => cart.id === cid);
+      const cart = await Cart.findById(cid);
       if (!cart) return null;
 
-      const productIndex = cart.products.findIndex(product => product.id === pid);
+      const productIndex = cart.products.findIndex(p => p.product.toString() === pid);
       if (productIndex !== -1) {
         cart.products[productIndex].quantity += quantity;
       } else {
-        cart.products.push({ id: pid, quantity });
+        cart.products.push({ product: pid, quantity });
       }
 
-      await saveToFile(cartsFilePath, carts);
+      await cart.save();
       return cart;
     } catch (error) {
       throw new Error('Error al agregar el producto al carrito');
     }
   }
-  
-  static generateId(carts) {
-    const maxId = carts.reduce((max, cart) => Math.max(max, cart.id), 0);
-    return maxId + 1;
-  }
 }
 
 module.exports = CartManager;
+
