@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Productos en Tiempo Real</title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-  <header>
-    <h1>Productos en Tiempo Real</h1>
-  </header>
+<header>
+  <h1>Productos en Tiempo Real</h1>
+</header>
 
-  <div class="container">
-    {{#each products}}
-      <div class="card">
-        <img src="{{this.thumbnail}}" alt="Imagen del producto">
+<div class="container">
+  {{#each products}}
+    <div class="card">
+      <img src="{{this.thumbnail}}" alt="Imagen del producto">
         <div class="card-body">
           <h2 class="card-title">{{this.title}}</h2>
           <p class="card-text">{{this.description}}</p>
           <p class="price">${{this.price}}</p>
         </div>
-      </div>
-    {{/each}}
-  </div>
-</body>
-</html>
+    </div>
+  {{/each}}
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/realTime.js"></script>

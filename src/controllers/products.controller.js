@@ -13,11 +13,14 @@ const getAllProducts = async (req, res) => {
       ];
     }
 
-    if (available !== undefined) {
-      if (available === 'true') {
-        filter.stock = { $gt: 0 };
-      } else if (available === 'false') {
-        filter.stock = 0;
+    if (typeof available === 'string') {
+      const isAvailable = available.toLowerCase() === 'true';
+      const isUnavailable = available.toLowerCase() === 'false';
+
+    if (isAvailable) {
+      filter.stock = { $gt: 0 };
+      } else if (isUnavailable) {
+      filter.stock = 0;
       }
     }
 

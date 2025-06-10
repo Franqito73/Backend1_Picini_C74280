@@ -1,4 +1,5 @@
 const CartService = require('../services/cartService');
+const mongoose = require('mongoose');
 
 const createCart = async (req, res) => {
   try {
@@ -57,10 +58,33 @@ const updateCartProducts = async (req, res) => {
   try {
     const { cid } = req.params;
     const { products } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(cid)) {
+      return res.status(400).json({ message: 'ID de carrito inválido' });
+    }
+
+     if (!Array.isArray(products)) {
+      return res.status(400).json({ message: 'El cuerpo debe contener un array de productos' });
+    }
+
+    for (const item of products) {
+      if (
+        !item.product ||
+        !mongoose.Types.ObjectId.isValid(item.product) || // validar id producto
+        !item.quantity ||
+        typeof item.quantity !== 'number' ||
+        item.quantity < 1
+      ) {
+        return res.status(400).json({ message: 'Datos inválidos en productos' });
+      }
+    }
+
     const updatedCart = await CartService.updateCartProducts(cid, products);
+
     if (!updatedCart) {
       return res.status(404).json({ message: 'Carrito no encontrado' });
     }
+    
     res.status(200).json({ message: 'Productos del carrito actualizados', cart: updatedCart });
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar el carrito' });
