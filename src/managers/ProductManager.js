@@ -31,7 +31,7 @@ class ProductManager {
   static async updateProduct(id, updatedProduct) {
     try {
       const product = await Product.findByIdAndUpdate(id, updatedProduct, { new: true });
-      return product; // null si no existe
+      return product;
     } catch (error) {
       throw new Error('Error al actualizar el producto');
     }
@@ -40,7 +40,7 @@ class ProductManager {
   static async deleteProduct(id) {
     try {
       const result = await Product.findByIdAndDelete(id);
-      return result !== null; // true si se eliminó, false si no existe
+      return result !== null;
     } catch (error) {
       throw new Error('Error al eliminar el producto');
     }

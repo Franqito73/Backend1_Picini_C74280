@@ -4,7 +4,6 @@ const { Server } = require('socket.io');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const connectDB = require('./config/db.js');
-
 const viewsRouter = require('./routes/views.router');
 const productsRouter = require('./routes/products.routes');
 const cartsRouter = require('./routes/carts.routes');

@@ -1,8 +1,10 @@
 const ProductManager = require('../managers/ProductManager');
+const Product = require('../models/Product');
+
 
 class ProductService {
-  static async getAllProducts() {
-    return await ProductManager.getAllProducts();
+  static async getAllProducts (filter, options) {
+  return await Product.paginate(filter, options);
   }
 
   static async getProductById(id) {
