@@ -1,17 +1,12 @@
-  <header>
-    <h1>Productos Disponibles</h1>
-  </header>
+<header>
+  <h1>Bienvenido a mi Tiendita Online de Backend</h1>
+</header>
 
-  <div class="container">
-    {{#each products}}
-      <div class="card">
-        <img src="{{this.thumbnail}}" alt="Imagen del producto">
-        <div class="card-body">
-          <h2 class="card-title">{{this.title}}</h2>
-          <p class="card-text">{{this.description}}</p>
-          <p class="price">${{this.price}}</p>
-        </div>
-      </div>
-    {{/each}}
+<main>
+  <p>INGRESE A LA SECCIÓN QUE DESEE</p>
+
+  <div class="nav-links">
+    <a href="/products">🛍️ Ver Productos</a>
+    <a href="/carts">🛒 Ver Carrito</a>
   </div>
-
+</main>

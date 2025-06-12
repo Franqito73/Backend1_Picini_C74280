@@ -1,0 +1,18 @@
+<header>
+  <h1>{{product.title}}</h1>
+</header>
+
+<div class="product-detail">
+  <img src="{{product.thumbnail}}" alt="Imagen del producto">
+  <p>{{product.description}}</p>
+  <p>Categoría: {{product.category}}</p>
+  <p>Precio: ${{product.price}}</p>
+
+  <form action="/api/carts/{{cartId}}/product/{{product._id}}" method="POST">
+    <label for="quantity">Cantidad:</label>
+    <input type="number" id="quantity" name="quantity" value="1" min="1">
+    <button type="submit">Agregar al carrito</button>
+  </form>
+
+  <a href="/products">← Volver a productos</a>
+</div>
